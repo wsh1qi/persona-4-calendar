@@ -12,7 +12,9 @@ const app = express();
 const isProduction = process.env.NODE_ENV === 'production';
 const port = process.env.PORT || 3000;
 const rootDir = __dirname;
-const dataDir = path.join(rootDir, 'data');
+const dataDir = process.env.DATA_DIR
+  ? path.resolve(process.env.DATA_DIR)
+  : path.join(rootDir, 'data');
 const publicDir = path.join(rootDir, 'public');
 const dbPath = path.join(dataDir, 'p4.db');
 const sessionSecret = process.env.SESSION_SECRET || 'p4-session-secret';

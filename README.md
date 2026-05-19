@@ -51,13 +51,20 @@ npm start
 
 - `NODE_ENV=production`
 - `SESSION_SECRET=一串足够长的随机字符串`
+- `DATA_DIR=/var/data`
 
-6. 部署完成后，Render 会给你一个公网链接，直接发给别人即可使用
+6. 给这个服务挂载 Persistent Disk：
+
+- Mount Path: `/var/data`
+- Size: `1 GB`
+
+7. 部署完成后，Render 会给你一个公网链接，直接发给别人即可使用
 
 ## 重要说明
 
 - 现在使用的是 SQLite，适合小型项目和课程展示
-- 如果部署平台的磁盘不是持久化的，重启后数据可能丢失
+- Render 的免费 Web Service 不能挂 Persistent Disk，所以如果你想保留用户数据，不能用免费 Web Service
+- 当前仓库里的 `render.yaml` 已按持久化磁盘方案配置，适合直接部署到付费 Web Service
 - 如果你后面要长期公开使用，建议把数据库换成 PostgreSQL
 
 ## 当前功能
