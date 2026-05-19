@@ -1,5 +1,7 @@
 # P4 Schedule Web App
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/wsh1qi/persona-4-calendar)
+
 这是一个可部署的多人日程网站版本。每个用户注册自己的账号后，会看到并维护自己独立的日程数据，彼此互不干扰。
 
 ## 本地运行
