@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P4 Login</title>
+    <style>
+        :root {
+            --p4-yellow: #ffe100;
+            --p4-black: #080808;
+            --p4-white: #f5f4ef;
+            --p4-purple: #6c44d6;
+            --p4-violet: #31206f;
+            --p4-shadow: rgba(0, 0, 0, 0.82);
+        }
+
+        * { box-sizing: border-box; }
+        html, body { width: 100%; height: 100%; }
+        body {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(255, 225, 0, 0.16), transparent 22%),
+                radial-gradient(circle at 80% 28%, rgba(108, 68, 214, 0.22), transparent 24%),
+                linear-gradient(135deg, #050505 0%, #171044 45%, #080808 100%);
+            font-family: "Arial Black", Impact, sans-serif;
+            color: var(--p4-white);
+        }
+
+        .panel {
+            width: min(460px, 92vw);
+            padding: 34px 30px 28px;
+            background:
+                linear-gradient(135deg, rgba(255,255,255,0.2), transparent 24%),
+                linear-gradient(180deg, rgba(255, 225, 0, 0.95), rgba(244, 214, 0, 0.9));
+            border: 7px solid var(--p4-black);
+            box-shadow: 20px 22px 0 rgba(0, 0, 0, 0.86);
+            color: var(--p4-black);
+            clip-path: polygon(0 3%, 4% 0, 100% 0, 100% 97%, 96% 100%, 0 100%);
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+
+        p {
+            margin: 0 0 22px;
+            opacity: 0.82;
+            font-size: 0.95rem;
+        }
+
+        .tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .tab {
+            padding: 12px 14px;
+            border: 4px solid var(--p4-black);
+            background: var(--p4-black);
+            color: var(--p4-yellow);
+            cursor: pointer;
+            font: inherit;
+            text-transform: uppercase;
+        }
+
+        .tab.active {
+            background: var(--p4-purple);
+            color: var(--p4-white);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px 16px;
+            border: 5px solid var(--p4-black);
+            font: inherit;
+            outline: none;
+            background: var(--p4-white);
+            color: var(--p4-black);
+        }
+
+        button[type="submit"] {
+            padding: 14px 18px;
+            border: 5px solid var(--p4-black);
+            background: var(--p4-purple);
+            color: var(--p4-white);
+            font: inherit;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .message {
+            min-height: 22px;
+            margin-top: 12px;
+            font-size: 0.9rem;
+            color: #7a0e0e;
+        }
+    </style>
+</head>
+<body>
+    <div class="panel">
+        <h1>P4 Schedule</h1>
+        <p>每个账号拥有独立的日程数据，登录后互不干扰。</p>
+
+        <div class="tabs">
+            <button class="tab active" id="loginTab" type="button">Login</button>
+            <button class="tab" id="registerTab" type="button">Register</button>
+        </div>
+
+        <form id="authForm">
+            <input id="username" name="username" type="text" placeholder="Username" autocomplete="username" required>
+            <input id="password" name="password" type="password" placeholder="Password (at least 4 chars)" autocomplete="current-password" required>
+            <button type="submit" id="submitBtn">Login</button>
+        </form>
+
+        <div class="message" id="message"></div>
+    </div>
+
+    <script>
+        const loginTab = document.getElementById('loginTab');
+        const registerTab = document.getElementById('registerTab');
+        const authForm = document.getElementById('authForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const message = document.getElementById('message');
+
+        let mode = 'login';
+
+        function setMode(nextMode) {
+            mode = nextMode;
+            loginTab.classList.toggle('active', mode === 'login');
+            registerTab.classList.toggle('active', mode === 'register');
+            submitBtn.textContent = mode === 'login' ? 'Login' : 'Register';
+            message.textContent = '';
+        }
+
+        loginTab.addEventListener('click', () => setMode('login'));
+        registerTab.addEventListener('click', () => setMode('register'));
+
+        authForm.addEventListener('submit', async event => {
+            event.preventDefault();
+            message.textContent = '';
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+
+            const response = await fetch(`/api/${mode}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok) {
+                message.textContent = data.error === 'username_taken'
+                    ? '用户名已存在。'
+                    : data.error === 'bad_credentials'
+                        ? '用户名或密码错误。'
+                        : '请求失败，请重试。';
+                return;
+            }
+
+            window.location.href = '/app';
+        });
+    </script>
+</body>
+</html>
