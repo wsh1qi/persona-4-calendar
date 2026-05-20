@@ -1349,13 +1349,15 @@
             }
 
             .hud-container {
-                width: 100%;
-                transform: none;
+                width: fit-content;
+                max-width: 100%;
+                transform: scale(0.82);
+                transform-origin: left top;
                 filter: drop-shadow(6px 6px 0 rgba(0, 0, 0, 0.72));
             }
 
             .hud-container:hover {
-                transform: translateY(-2px);
+                transform: scale(0.82) translateY(-2px);
             }
 
             .hud-month,
@@ -1365,34 +1367,31 @@
             }
 
             .hud-month {
-                min-width: 0;
-                width: 28%;
-                padding: 0 8px;
-                font-size: clamp(1.45rem, 6vw, 1.9rem);
+                min-width: 92px;
+                padding: 0 14px;
+                font-size: 1.7rem;
             }
 
             .hud-day {
-                min-height: 74px;
-                width: 42%;
-                padding: 0 12px;
-                margin-left: -4px;
-                font-size: clamp(2rem, 10vw, 3rem);
+                min-height: 88px;
+                padding: 0 18px;
+                margin-left: -6px;
+                font-size: 2.7rem;
             }
 
             .hud-day::after {
-                right: -8px;
-                bottom: -8px;
-                width: 20px;
-                height: 20px;
+                right: -10px;
+                bottom: -10px;
+                width: 26px;
+                height: 26px;
                 border-width: 3px;
             }
 
             .hud-weekday {
-                min-width: 0;
-                width: 30%;
-                margin-left: -4px;
-                padding: 0 8px;
-                font-size: clamp(0.82rem, 3.6vw, 1rem);
+                min-width: 100px;
+                margin-left: -6px;
+                padding: 0 12px;
+                font-size: 0.9rem;
             }
 
             .calendar-nav {
@@ -1496,7 +1495,8 @@
             }
 
             .back-btn {
-                width: 100%;
+                width: fit-content;
+                max-width: 100%;
                 padding: 12px 16px;
                 box-shadow: 6px 6px 0 rgba(255, 255, 255, 0.22);
                 font-size: 0.92rem;
@@ -1519,7 +1519,9 @@
             }
 
             .add-btn {
-                width: 100%;
+                width: fit-content;
+                justify-self: start;
+                max-width: 100%;
                 min-height: 48px;
                 padding: 0 16px;
                 box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.82);
@@ -1604,7 +1606,8 @@
             }
 
             .bgm-btn {
-                width: 100%;
+                width: fit-content;
+                max-width: 100%;
                 min-height: 44px;
                 padding: 10px 12px;
                 font-size: 0.82rem;
@@ -1639,19 +1642,28 @@
                 grid-template-columns: 1fr;
             }
 
+            .hud-container {
+                transform: scale(0.72);
+            }
+
+            .hud-container:hover {
+                transform: scale(0.72) translateY(-2px);
+            }
+
             .hud-month {
-                width: 30%;
-                font-size: 1.2rem;
+                min-width: 78px;
+                font-size: 1.35rem;
             }
 
             .hud-day {
-                width: 40%;
-                font-size: 1.7rem;
+                min-height: 76px;
+                padding: 0 14px;
+                font-size: 2.2rem;
             }
 
             .hud-weekday {
-                width: 30%;
-                font-size: 0.72rem;
+                min-width: 84px;
+                font-size: 0.78rem;
             }
 
             .day-cell {
