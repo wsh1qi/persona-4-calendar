@@ -1465,8 +1465,8 @@
             <div class="bgm-label">BGM</div>
             <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" title="Volume">
             <input type="file" id="audio-upload" accept="audio/*">
-            <button class="bgm-btn" id="bgmBtn"><span>Load Local BGM</span></button>
-            <audio id="bgmPlayer" loop></audio>
+            <button class="bgm-btn" id="bgmBtn"><span>Play Specialist</span></button>
+            <audio id="bgmPlayer" loop src="/assets/specialist.mp3"></audio>
         </div>
     </div>
 
@@ -2056,7 +2056,7 @@
         let dataArray;
         let canvasCtx;
         let visCanvas;
-        let isBgmLoaded = false;
+        let isBgmLoaded = true;
         let isPlaying = false;
         let isAudioSetup = false;
 
@@ -2064,6 +2064,7 @@
         volumeSlider.addEventListener("input", event => {
             bgmPlayer.volume = event.target.value;
         });
+        setBgmButtonState("Play Specialist", false);
 
         function setBgmButtonState(label, isActive) {
             bgmBtn.innerHTML = `<span>${label}</span>`;
@@ -2161,6 +2162,7 @@
                 if (audioCtx && audioCtx.state === "suspended") {
                     audioCtx.resume();
                 }
+                setupAudioAPI();
                 isPlaying = true;
                 setBgmButtonState("BGM Playing", true);
             }
