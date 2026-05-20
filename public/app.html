@@ -180,7 +180,7 @@
         }
 
         .bg-diagonals::after {
-            bottom: clamp(28px, 7vh, 96px);
+            bottom: 14%;
             transform: rotate(-7deg) translateX(4%);
             animation: ribbonFloat 26s linear infinite reverse;
         }
@@ -272,7 +272,7 @@
             position: absolute;
             left: -8vw;
             right: -8vw;
-            bottom: clamp(14px, 4vh, 44px);
+            bottom: 20vh;
             height: 68px;
             border-top: 5px solid var(--p4-black);
             border-bottom: 5px solid var(--p4-black);
@@ -380,12 +380,11 @@
         }
 
         .app-window {
-            position: absolute;
+            position: relative;
             z-index: 12;
-            top: 34px;
-            left: 30px;
-            width: 1180px;
-            height: 940px;
+            width: min(1180px, 94vw);
+            min-height: min(88vh, 940px);
+            max-height: 90vh;
             padding: 34px 36px 54px;
             overflow-y: auto;
             display: flex;
@@ -403,15 +402,10 @@
         }
 
         .ui-stage {
-            position: absolute;
-            top: 50%;
-            left: 50%;
+            position: relative;
             z-index: 12;
-            width: 1240px;
-            height: 1040px;
-            display: block;
-            transform: translate(-50%, -50%) scale(var(--mobile-stage-scale));
-            transform-origin: center center;
+            width: 100%;
+            display: contents;
         }
 
         .app-window::before {
@@ -1192,6 +1186,71 @@
         }
 
         @media (max-width: 980px) {
+            .app-window {
+                width: 96vw;
+                max-height: calc(100dvh - 132px);
+                padding: 110px 20px 28px;
+            }
+
+            .calendar-nav {
+                grid-template-columns: 1fr;
+            }
+
+            .chrome-ribbon {
+                top: 16px;
+                left: 16px;
+                max-width: calc(100% - 32px);
+            }
+
+            .user-bar {
+                top: 62px;
+                left: 20px;
+                right: 20px;
+                gap: 8px;
+                flex-wrap: wrap;
+            }
+
+            .content-grid {
+                gap: 18px;
+            }
+
+            .hud-wrapper {
+                width: 100%;
+                margin-top: 0;
+            }
+
+            .hud-container {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .nav-btn {
+                min-width: 0;
+                width: 100%;
+            }
+
+            .add-task-form {
+                grid-template-columns: 1fr;
+            }
+
+            .task-item {
+                grid-template-columns: 1fr;
+                justify-items: start;
+            }
+
+            .task-time,
+            .del-btn {
+                min-width: 0;
+            }
+
+            .bgm-control {
+                left: 18px;
+                right: 18px;
+                bottom: 18px;
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
+
             .corner-image.tv {
                 right: 18px;
                 top: 18px;
@@ -1209,6 +1268,13 @@
         }
 
         @media (max-width: 640px) {
+            body {
+                align-items: flex-start;
+                justify-content: center;
+                padding: 0;
+                overflow: hidden;
+            }
+
             .screen-frame {
                 inset: 8px;
             }
@@ -1216,6 +1282,35 @@
             .scanline-overlay,
             .vignette-overlay {
                 opacity: 0.7;
+            }
+
+            .ui-stage {
+                position: absolute;
+                top: 0;
+                left: 50%;
+                width: 1240px;
+                height: 1040px;
+                display: block;
+                transform: translate(-50%, -50%) scale(var(--mobile-stage-scale));
+                top: 50%;
+                transform-origin: center center;
+            }
+
+            .app-window {
+                position: absolute;
+                top: 34px;
+                left: 30px;
+                width: 1180px;
+                min-height: 940px;
+                max-height: 940px;
+                padding: 34px 36px 54px;
+            }
+
+            .bgm-control {
+                position: absolute;
+                right: 28px;
+                bottom: 28px;
+                left: auto;
             }
 
             .corner-image.tv {
@@ -1231,6 +1326,35 @@
             #audio-visualizer {
                 display: block;
                 height: 180px;
+            }
+
+            .chrome-ribbon,
+            .user-bar,
+            .hud-container,
+            .hud-container:hover,
+            .current-month-year,
+            .current-month-year strong,
+            .grid-header div,
+            .grid-header span,
+            .schedule-title,
+            .schedule-title span,
+            .input-shell,
+            .add-task-form input,
+            .task-item,
+            .task-item:hover,
+            .task-time,
+            .task-text,
+            .del-btn,
+            .bgm-control > * {
+                transform: revert-layer;
+            }
+
+            .user-chip span,
+            .logout-btn span,
+            .back-btn span,
+            .add-btn span,
+            .bgm-btn span {
+                transform: revert-layer;
             }
 
             .corner-image.tv {
@@ -1667,13 +1791,15 @@
         const weekdays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
         function updateMobileStageScale() {
-            const horizontalPadding = window.innerWidth <= 640 ? 12 : 48;
-            const verticalPadding = window.innerWidth <= 640 ? 12 : 48;
-            const maxScale = 1.08;
-            const widthScale = (window.innerWidth - horizontalPadding) / mobileStageDesignWidth;
-            const heightScale = (window.innerHeight - verticalPadding) / mobileStageDesignHeight;
-            const scale = Math.min(widthScale, heightScale, maxScale);
-            document.documentElement.style.setProperty("--mobile-stage-scale", String(Math.max(scale, 0.38)));
+            if (window.innerWidth > 640) {
+                document.documentElement.style.setProperty("--mobile-stage-scale", "1");
+                return;
+            }
+
+            const widthScale = window.innerWidth / mobileStageDesignWidth;
+            const heightScale = window.innerHeight / mobileStageDesignHeight;
+            const scale = Math.min(widthScale, heightScale);
+            document.documentElement.style.setProperty("--mobile-stage-scale", String(Math.max(scale, 0.34)));
         }
 
         async function apiFetch(url, options = {}) {
