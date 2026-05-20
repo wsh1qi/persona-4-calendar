@@ -20,6 +20,7 @@
             --panel-yellow: rgba(255, 225, 0, 0.9);
             --panel-white: rgba(245, 244, 239, 0.92);
             --panel-black: rgba(12, 12, 12, 0.9);
+            --mobile-stage-scale: 1;
         }
 
         * {
@@ -398,6 +399,13 @@
             clip-path: polygon(0 3%, 4% 0, 100% 0, 100% 97%, 96% 100%, 0 100%);
             isolation: isolate;
             -webkit-overflow-scrolling: touch;
+        }
+
+        .ui-stage {
+            position: relative;
+            z-index: 12;
+            width: 100%;
+            display: contents;
         }
 
         .app-window::before {
@@ -1262,420 +1270,90 @@
         @media (max-width: 640px) {
             body {
                 align-items: flex-start;
-                padding: 8px 0 130px;
+                justify-content: center;
+                padding: 0;
+                overflow: hidden;
             }
 
-            .screen-frame,
-            .corner-image.kuma,
-            .bg-kaleido-ring,
-            .bg-kaleido-core,
-            .bg-cutout.three,
-            .bg-alert {
-                display: none;
+            .screen-frame {
+                inset: 8px;
+            }
+
+            .scanline-overlay,
+            .vignette-overlay {
+                opacity: 0.7;
+            }
+
+            .ui-stage {
+                position: absolute;
+                top: 0;
+                left: 50%;
+                width: 1240px;
+                height: 1040px;
+                display: block;
+                transform: translateX(-50%) scale(var(--mobile-stage-scale));
+                transform-origin: top center;
             }
 
             .app-window {
-                width: calc(100vw - 12px);
-                min-height: calc(100dvh - 146px);
-                max-height: none;
-                padding: 94px 12px 18px;
-                border-width: 5px;
-                box-shadow: 8px 10px 0 rgba(0, 0, 0, 0.85);
-                clip-path: polygon(0 2%, 4% 0, 100% 0, 100% 98%, 96% 100%, 0 100%);
-            }
-
-            .chrome-ribbon {
-                top: 12px;
-                left: 12px;
-                max-width: calc(100% - 24px);
-                padding: 9px 12px;
-                font-size: 0.66rem;
-                gap: 8px;
-                box-shadow: 6px 6px 0 var(--p4-shadow);
-            }
-
-            .app-window::before {
-                inset: 8px;
-                border-width: 2px;
-            }
-
-            .app-window::after,
-            .corner-image.tv,
-            #audio-visualizer {
-                display: none;
-            }
-
-            .user-bar {
-                top: 50px;
-                left: 12px;
-                right: 12px;
-                display: grid;
-                grid-template-columns: minmax(0, 1fr) auto;
-                align-items: stretch;
-            }
-
-            .user-chip,
-            .logout-btn,
-            .bgm-btn,
-            .back-btn,
-            .add-btn,
-            .nav-btn {
-                transform: none;
-            }
-
-            .user-chip,
-            .logout-btn {
-                padding: 10px 12px;
-                box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.7);
-            }
-
-            .user-chip span,
-            .logout-btn span {
-                transform: none;
-            }
-
-            .content-grid {
-                gap: 14px;
-            }
-
-            .hud-wrapper {
-                padding-top: 10px;
-            }
-
-            .hud-live {
-                left: 0;
-                font-size: 0.72rem;
-                padding: 2px 8px;
-            }
-
-            .hud-container {
-                width: fit-content;
-                max-width: 100%;
-                transform: scale(0.82);
-                transform-origin: left top;
-                filter: drop-shadow(6px 6px 0 rgba(0, 0, 0, 0.72));
-            }
-
-            .hud-container:hover {
-                transform: scale(0.82) translateY(-2px);
-            }
-
-            .hud-month,
-            .hud-day,
-            .hud-weekday {
-                border-width: 3px;
-            }
-
-            .hud-month {
-                min-width: 92px;
-                padding: 0 14px;
-                font-size: 1.7rem;
-            }
-
-            .hud-day {
-                min-height: 88px;
-                padding: 0 18px;
-                margin-left: -6px;
-                font-size: 2.7rem;
-            }
-
-            .hud-day::after {
-                right: -10px;
-                bottom: -10px;
-                width: 26px;
-                height: 26px;
-                border-width: 3px;
-            }
-
-            .hud-weekday {
-                min-width: 100px;
-                margin-left: -6px;
-                padding: 0 12px;
-                font-size: 0.9rem;
-            }
-
-            .calendar-nav {
-                gap: 12px;
-                margin-top: 4px;
-            }
-
-            .current-month-year-wrap::before {
-                top: -14px;
-                left: 10px;
-                padding: 2px 7px;
-                border-width: 2px;
-                font-size: 0.58rem;
-                letter-spacing: 0.1em;
-            }
-
-            .current-month-year {
-                padding: 14px 14px 12px;
-                border-width: 4px;
-                box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.76);
-                transform: none;
-                font-size: 1.05rem;
-                letter-spacing: 0.08em;
-            }
-
-            .current-month-year strong {
-                transform: none;
-            }
-
-            .grid-header,
-            .calendar-grid {
-                gap: 6px;
-            }
-
-            .grid-header div {
-                padding: 7px 4px;
-                border-width: 3px;
-                box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.18);
-                transform: none;
-                font-size: 0.62rem;
-            }
-
-            .grid-header span {
-                transform: none;
-            }
-
-            .day-cell {
-                min-height: 68px;
-                padding: 6px 6px 8px;
-                border-width: 3px;
-                box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.82);
-            }
-
-            .day-num {
-                font-size: 1rem;
-            }
-
-            .day-marker {
-                padding: 2px 5px;
-                border-width: 2px;
-                font-size: 0.52rem;
-                gap: 4px;
-            }
-
-            .day-cell.has-task::after {
-                right: 6px;
-                top: 6px;
-                width: 22px;
-                height: 22px;
-                border-width: 3px;
-                box-shadow: 2px 2px 0 rgba(255, 255, 255, 0.22);
-                font-size: 0.78rem;
-            }
-
-            .schedule-view {
-                gap: 14px;
-            }
-
-            .schedule-head {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .schedule-title-wrap::before {
-                left: 4px;
-                border-width: 2px;
-                font-size: 0.56rem;
-            }
-
-            .schedule-title {
-                padding: 16px 14px 14px;
-                border-width: 4px;
-                box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.82);
-                transform: none;
-                font-size: 1rem;
-                letter-spacing: 0.08em;
-            }
-
-            .schedule-title span {
-                transform: none;
-            }
-
-            .back-btn {
-                width: fit-content;
-                max-width: 100%;
-                padding: 12px 16px;
-                box-shadow: 6px 6px 0 rgba(255, 255, 255, 0.22);
-                font-size: 0.92rem;
-            }
-
-            .add-task-form {
-                gap: 10px;
-            }
-
-            .input-shell {
-                transform: none;
-                box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.82);
-            }
-
-            .add-task-form input {
-                padding: 14px 12px;
-                border-width: 4px;
-                transform: none;
-                font-size: 16px;
-            }
-
-            .add-btn {
-                width: fit-content;
-                justify-self: start;
-                max-width: 100%;
-                min-height: 48px;
-                padding: 0 16px;
-                box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.82);
-                font-size: 0.92rem;
-            }
-
-            .task-list {
-                padding-right: 0;
-                gap: 12px;
-            }
-
-            .no-data {
-                min-height: 180px;
-                border-width: 4px;
-                font-size: 1.4rem;
-                transform: none;
-                letter-spacing: 0.08em;
-            }
-
-            .task-item {
-                gap: 10px;
-                padding: 12px;
-                border-width: 4px;
-                box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.82);
-                transform: none;
-            }
-
-            .task-item:hover {
-                transform: translate(-1px, -2px);
-                box-shadow: 8px 8px 0 rgba(108, 68, 214, 0.5);
-            }
-
-            .task-time,
-            .task-text,
-            .del-btn {
-                transform: none;
-            }
-
-            .task-time {
-                min-width: 0;
-                width: 100%;
-                padding: 8px 10px;
-                border-width: 3px;
-                font-size: 0.88rem;
-            }
-
-            .task-text {
-                font-size: 0.96rem;
-                line-height: 1.4;
-            }
-
-            .del-btn {
-                width: 100%;
-                padding: 9px 12px;
-                border-width: 3px;
-                font-size: 0.88rem;
+                position: absolute;
+                top: 34px;
+                left: 30px;
+                width: 1180px;
+                min-height: 940px;
+                max-height: 940px;
+                padding: 34px 36px 54px;
             }
 
             .bgm-control {
-                left: 8px;
-                right: 8px;
-                bottom: 8px;
-                gap: 8px;
-                padding: 10px;
-                transform: none;
-                border-width: 4px;
-                box-shadow: 6px 6px 0 rgba(255, 225, 0, 0.24);
+                position: absolute;
+                right: 28px;
+                bottom: 28px;
+                left: auto;
             }
 
+            .corner-image.tv {
+                right: 22px;
+                top: 26px;
+            }
+
+            .corner-image.kuma {
+                left: 20px;
+                bottom: 18px;
+            }
+
+            #audio-visualizer {
+                display: block;
+                height: 180px;
+            }
+
+            .chrome-ribbon,
+            .user-bar,
+            .hud-container,
+            .hud-container:hover,
+            .current-month-year,
+            .current-month-year strong,
+            .grid-header div,
+            .grid-header span,
+            .schedule-title,
+            .schedule-title span,
+            .input-shell,
+            .add-task-form input,
+            .task-item,
+            .task-item:hover,
+            .task-time,
+            .task-text,
+            .del-btn,
             .bgm-control > * {
-                transform: none;
+                transform: revert-layer;
             }
 
-            .bgm-label {
-                font-size: 0.62rem;
-            }
-
-            input[type="range"] {
-                width: 100%;
-                min-width: 0;
-                order: 3;
-            }
-
-            .bgm-btn {
-                width: fit-content;
-                max-width: 100%;
-                min-height: 44px;
-                padding: 10px 12px;
-                font-size: 0.82rem;
-            }
-
-            .bgm-btn,
-            .back-btn,
-            .add-btn,
-            .nav-btn {
-                transform: none;
-            }
-
-            .nav-btn:hover,
-            .back-btn:hover,
-            .add-btn:hover,
-            .bgm-btn:hover {
-                transform: translateY(-2px);
-            }
-        }
-
-        @media (max-width: 420px) {
-            .app-window {
-                width: calc(100vw - 8px);
-                padding: 92px 10px 16px;
-            }
-
-            .chrome-ribbon {
-                font-size: 0.6rem;
-            }
-
-            .user-bar {
-                grid-template-columns: 1fr;
-            }
-
-            .hud-container {
-                transform: scale(0.72);
-            }
-
-            .hud-container:hover {
-                transform: scale(0.72) translateY(-2px);
-            }
-
-            .hud-month {
-                min-width: 78px;
-                font-size: 1.35rem;
-            }
-
-            .hud-day {
-                min-height: 76px;
-                padding: 0 14px;
-                font-size: 2.2rem;
-            }
-
-            .hud-weekday {
-                min-width: 84px;
-                font-size: 0.78rem;
-            }
-
-            .day-cell {
-                min-height: 60px;
-            }
-
-            .day-num {
-                font-size: 0.9rem;
-            }
-
-            .day-marker {
-                font-size: 0.48rem;
+            .user-chip span,
+            .logout-btn span,
+            .back-btn span,
+            .add-btn span,
+            .bgm-btn span {
+                transform: revert-layer;
             }
         }
     </style>
@@ -1704,75 +1382,77 @@
     <div class="tv-static" id="tvStatic"></div>
     <div class="midnight-channel" id="midnightChannel"></div>
 
-    <div class="app-window" id="appWindow">
-        <div class="chrome-ribbon">
-            <div class="pulse"></div>
-            <span>Inaba Daily Schedule System</span>
-        </div>
-        <div class="user-bar">
-            <div class="user-chip"><span id="userLabel">Guest</span></div>
-            <button class="logout-btn" id="logoutBtn" type="button"><span>Logout</span></button>
-        </div>
-
-        <div class="content-grid">
-            <div class="hud-wrapper">
-                <div class="hud-live">LIVE</div>
-                <div class="hud-container" id="hudClick" title="点击返回今天">
-                    <div class="hud-month" id="hudMonth">--</div>
-                    <div class="hud-day" id="hudDay">--</div>
-                    <div class="hud-weekday" id="hudWeekday">---</div>
-                </div>
+    <div class="ui-stage" id="uiStage">
+        <div class="app-window" id="appWindow">
+            <div class="chrome-ribbon">
+                <div class="pulse"></div>
+                <span>Inaba Daily Schedule System</span>
+            </div>
+            <div class="user-bar">
+                <div class="user-chip"><span id="userLabel">Guest</span></div>
+                <button class="logout-btn" id="logoutBtn" type="button"><span>Logout</span></button>
             </div>
 
-            <div class="calendar-view" id="calendarView">
-                <div class="calendar-nav">
-                    <button class="nav-btn" onclick="changeMonth(-1)"><span>Prev</span></button>
-                    <div class="current-month-year-wrap">
-                        <span class="current-month-year" id="currentMonthYear"><strong>-- / --</strong></span>
+            <div class="content-grid">
+                <div class="hud-wrapper">
+                    <div class="hud-live">LIVE</div>
+                    <div class="hud-container" id="hudClick" title="点击返回今天">
+                        <div class="hud-month" id="hudMonth">--</div>
+                        <div class="hud-day" id="hudDay">--</div>
+                        <div class="hud-weekday" id="hudWeekday">---</div>
                     </div>
-                    <button class="nav-btn" onclick="changeMonth(1)"><span>Next</span></button>
-                </div>
-                <div class="grid-header">
-                    <div><span>Sun</span></div>
-                    <div><span>Mon</span></div>
-                    <div><span>Tue</span></div>
-                    <div><span>Wed</span></div>
-                    <div><span>Thu</span></div>
-                    <div><span>Fri</span></div>
-                    <div><span>Sat</span></div>
-                </div>
-                <div class="calendar-grid" id="calendarGrid"></div>
-            </div>
-
-            <div class="schedule-view" id="scheduleView">
-                <div class="schedule-head">
-                    <div class="schedule-title-wrap">
-                        <h2 class="schedule-title" id="scheduleTitle"><span>Daily Log</span></h2>
-                    </div>
-                    <button class="back-btn" onclick="switchView('calendar')"><span>Back To Calendar</span></button>
                 </div>
 
-                <div class="add-task-form">
-                    <div class="input-shell">
-                        <input type="time" id="taskTime" class="input-time" value="12:00">
+                <div class="calendar-view" id="calendarView">
+                    <div class="calendar-nav">
+                        <button class="nav-btn" onclick="changeMonth(-1)"><span>Prev</span></button>
+                        <div class="current-month-year-wrap">
+                            <span class="current-month-year" id="currentMonthYear"><strong>-- / --</strong></span>
+                        </div>
+                        <button class="nav-btn" onclick="changeMonth(1)"><span>Next</span></button>
                     </div>
-                    <div class="input-shell">
-                        <input type="text" id="taskDesc" class="input-desc" placeholder="写下今天的安排，点击任务可切换完成状态">
+                    <div class="grid-header">
+                        <div><span>Sun</span></div>
+                        <div><span>Mon</span></div>
+                        <div><span>Tue</span></div>
+                        <div><span>Wed</span></div>
+                        <div><span>Thu</span></div>
+                        <div><span>Fri</span></div>
+                        <div><span>Sat</span></div>
                     </div>
-                    <button class="add-btn" onclick="addTask()"><span>Add Task</span></button>
+                    <div class="calendar-grid" id="calendarGrid"></div>
                 </div>
 
-                <ul class="task-list" id="taskList"></ul>
+                <div class="schedule-view" id="scheduleView">
+                    <div class="schedule-head">
+                        <div class="schedule-title-wrap">
+                            <h2 class="schedule-title" id="scheduleTitle"><span>Daily Log</span></h2>
+                        </div>
+                        <button class="back-btn" onclick="switchView('calendar')"><span>Back To Calendar</span></button>
+                    </div>
+
+                    <div class="add-task-form">
+                        <div class="input-shell">
+                            <input type="time" id="taskTime" class="input-time" value="12:00">
+                        </div>
+                        <div class="input-shell">
+                            <input type="text" id="taskDesc" class="input-desc" placeholder="写下今天的安排，点击任务可切换完成状态">
+                        </div>
+                        <button class="add-btn" onclick="addTask()"><span>Add Task</span></button>
+                    </div>
+
+                    <ul class="task-list" id="taskList"></ul>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="bgm-control">
-        <div class="bgm-label">BGM</div>
-        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" title="Volume">
-        <input type="file" id="audio-upload" accept="audio/*">
-        <button class="bgm-btn" id="bgmBtn"><span>Load Local BGM</span></button>
-        <audio id="bgmPlayer" loop></audio>
+        <div class="bgm-control">
+            <div class="bgm-label">BGM</div>
+            <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" title="Volume">
+            <input type="file" id="audio-upload" accept="audio/*">
+            <button class="bgm-btn" id="bgmBtn"><span>Load Local BGM</span></button>
+            <audio id="bgmPlayer" loop></audio>
+        </div>
     </div>
 
     <script>
@@ -2028,6 +1708,7 @@
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
             resizeVisualizer();
+            updateMobileStageScale();
         }
 
         function animate() {
@@ -2072,6 +1753,7 @@
         window.onload = async function() {
             initThreeJS();
             initVisualizer();
+            updateMobileStageScale();
             await initSchedule();
         };
 
@@ -2081,6 +1763,8 @@
         let displayMonth;
         let selectedDateStr;
         let currentUser = null;
+        const mobileStageDesignWidth = 1240;
+        const mobileStageDesignHeight = 1040;
 
         const hudMonth = document.getElementById("hudMonth");
         const hudDay = document.getElementById("hudDay");
@@ -2090,6 +1774,18 @@
         const userLabel = document.getElementById("userLabel");
         const logoutBtn = document.getElementById("logoutBtn");
         const weekdays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+
+        function updateMobileStageScale() {
+            if (window.innerWidth > 640) {
+                document.documentElement.style.setProperty("--mobile-stage-scale", "1");
+                return;
+            }
+
+            const widthScale = window.innerWidth / mobileStageDesignWidth;
+            const heightScale = window.innerHeight / mobileStageDesignHeight;
+            const scale = Math.min(widthScale, heightScale);
+            document.documentElement.style.setProperty("--mobile-stage-scale", String(Math.max(scale, 0.34)));
+        }
 
         async function apiFetch(url, options = {}) {
             const response = await fetch(url, {
