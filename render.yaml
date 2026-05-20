@@ -2,19 +2,13 @@ services:
   - type: web
     name: p4-schedule
     env: node
-    plan: starter
+    plan: free
     buildCommand: npm install
     startCommand: npm start
     healthCheckPath: /health
     autoDeploy: false
-    disk:
-      name: p4-data
-      mountPath: /var/data
-      sizeGB: 1
     envVars:
       - key: NODE_ENV
         value: production
-      - key: DATA_DIR
-        value: /var/data
       - key: SESSION_SECRET
         generateValue: true

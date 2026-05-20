@@ -2,79 +2,65 @@
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/wsh1qi/persona-4-calendar)
 
-这是一个可部署的多人日程网站版本。每个用户注册自己的账号后，会看到并维护自己独立的日程数据，彼此互不干扰。
+This is a multi-user schedule website inspired by Persona 4. Each user can register an account, sign in, and manage a separate personal schedule.
 
-## 本地运行
+## Local Run
 
-1. 安装依赖
+1. Install dependencies
 
 ```bash
 npm install
 ```
 
-2. 创建环境变量文件
+2. Create an environment file
 
-把 `.env.example` 复制为 `.env`，至少设置：
+Copy `.env.example` to `.env` and set at least:
 
 ```env
 PORT=3000
-SESSION_SECRET=你的长随机字符串
+SESSION_SECRET=your-long-random-secret
 NODE_ENV=development
 ```
 
-3. 启动
+3. Start the app
 
 ```bash
 npm start
 ```
 
-打开 `http://localhost:3000`
+Open `http://localhost:3000`
 
-## 部署成公网网站
+## Render Free Demo Deployment
 
-这个项目现在已经是标准 Node.js 网站，可以直接部署到以下平台：
+This repository is configured for a Render free demo deployment. It can be deployed as a public website and shared by URL.
 
-- Render
-- Railway
-- Fly.io
-- 你自己的 Linux / Windows 云服务器
+### One-click Deploy
 
-### Render 最快部署方式
+Use the button above or open:
 
-1. 把整个 `p4` 文件夹上传到 GitHub 仓库
-2. 在 Render 新建一个 `Web Service`
-3. 连接你的 GitHub 仓库
-4. 填写：
+`https://render.com/deploy?repo=https://github.com/wsh1qi/persona-4-calendar`
 
+### Render Settings
+
+- Plan: `Free`
 - Build Command: `npm install`
 - Start Command: `npm start`
+- Environment Variable: `NODE_ENV=production`
+- Environment Variable: `SESSION_SECRET=<long-random-secret>`
 
-5. 在 Render 的环境变量里设置：
+## Important Notes
 
-- `NODE_ENV=production`
-- `SESSION_SECRET=一串足够长的随机字符串`
-- `DATA_DIR=/var/data`
+- This free demo version does not use a persistent disk.
+- The app still uses SQLite, but the data is only suitable for demo use.
+- Render free services may sleep. After restart, redeploy, or instance rebuild, user accounts and schedule data may be lost.
+- For long-term production use, move back to a persistent deployment or switch the database to PostgreSQL.
 
-6. 给这个服务挂载 Persistent Disk：
+## Current Features
 
-- Mount Path: `/var/data`
-- Size: `1 GB`
-
-7. 部署完成后，Render 会给你一个公网链接，直接发给别人即可使用
-
-## 重要说明
-
-- 现在使用的是 SQLite，适合小型项目和课程展示
-- Render 的免费 Web Service 不能挂 Persistent Disk，所以如果你想保留用户数据，不能用免费 Web Service
-- 当前仓库里的 `render.yaml` 已按持久化磁盘方案配置，适合直接部署到付费 Web Service
-- 如果你后面要长期公开使用，建议把数据库换成 PostgreSQL
-
-## 当前功能
-
-- 用户注册
-- 用户登录 / 退出
-- 每个账号独立保存日程
-- 添加任务
-- 标记完成
-- 删除任务
-- Persona 4 风格动态背景页面
+- User registration
+- User login and logout
+- Separate schedule data for each account
+- Add tasks
+- Mark tasks as completed
+- Delete tasks
+- Persona 4 style animated background
