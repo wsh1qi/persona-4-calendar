@@ -58,13 +58,13 @@
         }
 
         ::-webkit-scrollbar {
-            width: 14px;
+            width: 8px;
         }
 
         ::-webkit-scrollbar-track {
             background:
                 linear-gradient(180deg, var(--p4-black), #10174a);
-            border-left: 3px solid var(--p4-yellow);
+            border-left: 2px solid var(--p4-yellow);
         }
 
         ::-webkit-scrollbar-thumb {
@@ -73,8 +73,8 @@
                     -45deg,
                     var(--p4-yellow) 0 10px,
                     var(--p4-black) 10px 14px
-                );
-            border: 2px solid var(--p4-white);
+            );
+            border: 1px solid var(--p4-white);
         }
 
         ::-webkit-scrollbar-thumb:hover {
@@ -383,10 +383,10 @@
         .app-window {
             position: relative;
             z-index: 12;
-            width: min(1180px, 94vw);
+            width: min(1228px, 96vw);
             min-height: min(88vh, 940px);
             max-height: 90vh;
-            padding: 34px 36px 54px;
+            padding: 34px 56px 54px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -512,7 +512,7 @@
             min-height: 0;
             flex: 1;
             overflow-y: auto;
-            padding-right: 8px;
+            padding: 0 8px 0 10px;
             position: relative;
             z-index: 1;
         }
