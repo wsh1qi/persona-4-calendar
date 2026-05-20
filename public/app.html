@@ -21,6 +21,7 @@
             --panel-white: rgba(245, 244, 239, 0.92);
             --panel-black: rgba(12, 12, 12, 0.9);
             --mobile-stage-scale: 1;
+            --app-window-scale: 1;
         }
 
         * {
@@ -386,7 +387,7 @@
             min-height: min(88vh, 940px);
             max-height: 90vh;
             padding: 34px 36px 54px;
-            overflow-y: auto;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             background:
@@ -398,6 +399,8 @@
                 0 0 0 5px rgba(255, 255, 255, 0.16);
             clip-path: polygon(0 3%, 4% 0, 100% 0, 100% 97%, 96% 100%, 0 100%);
             isolation: isolate;
+            transform: scale(var(--app-window-scale));
+            transform-origin: center center;
             -webkit-overflow-scrolling: touch;
         }
 
@@ -508,6 +511,10 @@
             gap: 24px;
             min-height: 0;
             flex: 1;
+            overflow-y: auto;
+            padding-right: 8px;
+            position: relative;
+            z-index: 1;
         }
 
         .hud-wrapper {
@@ -1793,9 +1800,14 @@
         function updateMobileStageScale() {
             if (window.innerWidth > 640) {
                 document.documentElement.style.setProperty("--mobile-stage-scale", "1");
+                const widthScale = (window.innerWidth - 48) / 1180;
+                const heightScale = (window.innerHeight - 48) / 940;
+                const appScale = Math.min(widthScale, heightScale, 1);
+                document.documentElement.style.setProperty("--app-window-scale", String(Math.max(appScale, 0.78)));
                 return;
             }
 
+            document.documentElement.style.setProperty("--app-window-scale", "1");
             const widthScale = window.innerWidth / mobileStageDesignWidth;
             const heightScale = window.innerHeight / mobileStageDesignHeight;
             const scale = Math.min(widthScale, heightScale);
