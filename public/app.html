@@ -1291,8 +1291,9 @@
                 width: 1240px;
                 height: 1040px;
                 display: block;
-                transform: translateX(-50%) scale(var(--mobile-stage-scale));
-                transform-origin: top center;
+                transform: translate(-50%, -50%) scale(var(--mobile-stage-scale));
+                top: 50%;
+                transform-origin: center center;
             }
 
             .app-window {
@@ -1354,6 +1355,20 @@
             .add-btn span,
             .bgm-btn span {
                 transform: revert-layer;
+            }
+
+            .corner-image.tv {
+                width: 132px;
+                height: 118px;
+                transform: rotate(8deg) scale(0.82);
+                transform-origin: top right;
+            }
+
+            .corner-image.kuma {
+                width: 140px;
+                height: 140px;
+                transform: rotate(-9deg) scale(0.82);
+                transform-origin: bottom left;
             }
         }
     </style>
